@@ -22,7 +22,8 @@ zz_*
 static/
 docker/redis/redis_data
 docker/redis/redis.conf
-
+celerybeat-schedule
+db.sqlite3
 
 .project
 .pydevproject
