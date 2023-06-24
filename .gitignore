@@ -20,7 +20,8 @@ files.zip
 zz_*
 
 static/
-
+docker/redis/redis_data
+docker/redis/redis.conf
 
 
 .project
