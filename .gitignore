@@ -19,6 +19,8 @@ tmp/
 files.zip
 zz_*
 
+static/
+
 
 
 .project
