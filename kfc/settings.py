@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 from pathlib import Path
 
+from celery.schedules import crontab
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -39,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    # 'django_celery_beat',
+
     'guest',
     'coupon'
 ]
@@ -127,3 +131,21 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CELERY_BROKER_URL = f'redis://:{os.getenv("REDIS_PASSWORD")}@{os.getenv("REDIS_HOST")}:' \
+                    f'{os.getenv("REDIS_PORT")}/{os.getenv("REDIS_DB_CELERY_BROKER")}'
+CELERY_RESULT_BACKEND = f'redis://:{os.getenv("REDIS_PASSWORD")}@{os.getenv("REDIS_HOST")}:' \
+                        f'{os.getenv("REDIS_PORT")}/{os.getenv("REDIS_DB_CELERY_RESULT")}'
+
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_WORKER_SEND_TASK_EVENTS = os.getenv('CELERY_WORKER_SEND_TASK_EVENTS', default=True) == 'True'
+CELERY_TASK_SEND_SENT_EVENT = os.getenv('CELERY_TASK_SEND_SENT_EVENT', default=True) == 'True'
+
+CELERY_BEAT_SCHEDULE = {
+    'remove_old_guests_task': {
+        'task': 'guest.tasks.remove_old_guests.remove_old_guests',
+        'schedule': crontab(day_of_week='fri')
+    },
+}
