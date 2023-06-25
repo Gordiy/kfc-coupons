@@ -1,0 +1,1 @@
+web gunicorn kfc.wsgi:application --log-file -
