@@ -37,3 +37,4 @@ env/
 include/
 lib/
 share/
+staticfiles/
