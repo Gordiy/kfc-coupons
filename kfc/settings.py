@@ -156,7 +156,7 @@ CELERY_TASK_SEND_SENT_EVENT = os.getenv('CELERY_TASK_SEND_SENT_EVENT', default=T
 CELERY_BEAT_SCHEDULE = {
     'remove_old_guests_task': {
         'task': 'guest.tasks.remove_old_guests.remove_old_guests',
-        'schedule': crontab(day_of_week='fri')
+        'schedule': crontab(hour=0, minute=0, day_of_week='fri'),
     },
 }
 
