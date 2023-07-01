@@ -7,7 +7,7 @@ from coupon.models import Coupon
 def generate_unique_coupon_number() -> int:
     """Generate unique coupon number."""
     while True:
-        random_value = random.randint(1000000, 1100000)
+        random_value = random.randint(5000000, 5100000)
         try:
             # Check if a Coupon object with the same number exists
             Coupon.objects.get(number=random_value)
